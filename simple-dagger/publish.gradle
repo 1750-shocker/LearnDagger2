@@ -1,0 +1,56 @@
+// 发布配置脚本
+apply plugin: 'maven-publish'
+
+afterEvaluate {
+    publishing {
+        publications {
+            // 创建Maven发布配置
+            maven(MavenPublication) {
+                from components.release
+                
+                groupId = 'com.gta'
+                artifactId = 'simple-dagger'
+                version = '1.0.0'
+                
+                pom {
+                    name = 'SimpleDagger'
+                    description = '轻量级依赖注入框架，inspired by Dagger2'
+                    url = 'https://github.com/your-repo/simple-dagger'
+                    
+                    licenses {
+                        license {
+                            name = 'MIT License'
+                            url = 'https://opensource.org/licenses/MIT'
+                        }
+                    }
+                    
+                    developers {
+                        developer {
+                            id = 'gta'
+                            name = 'GTA Team'
+                            email = 'team@gta.com'
+                        }
+                    }
+                }
+            }
+        }
+        
+        repositories {
+            // 本地Maven仓库
+            maven {
+                name = "local"
+                url = uri("${rootProject.buildDir}/repo")
+            }
+            
+            // 如果要发布到远程仓库，可以添加这里
+            // maven {
+            //     name = "GitHubPackages"
+            //     url = uri("https://maven.pkg.github.com/username/repo")
+            //     credentials {
+            //         username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            //         password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            //     }
+            // }
+        }
+    }
+}

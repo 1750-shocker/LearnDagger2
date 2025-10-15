@@ -59,4 +59,7 @@ dependencies {
     // 👇 关键：依赖本地 AAR 文件
     // ✅ 正确方式：使用 files() 函数引用本地 AAR
     implementation(files("libs/mysdk-release.aar"))
+    
+    // 依赖我们的SimpleDagger SDK
+    implementation(project(":simple-dagger"))
 }

@@ -28,4 +28,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "MySdkDemoApp"
 include(":app")
+include(":simple-dagger")
  
