@@ -24,6 +24,8 @@ import com.gta.mysdk.MySdk
 import com.gta.mysdkdemoapp.ui.theme.MySdkDemoAppTheme
 import com.gta.mysdkdemoapp.example.DependencyInjectionDemo
 import com.gta.mysdkdemoapp.example.CombinedDemo
+import com.gta.mysdkdemoapp.example.InjectDemoActivity
+import com.gta.mysdkdemoapp.test.InjectTest
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,6 +82,28 @@ fun Greeting(onClick:()->Unit, modifier: Modifier = Modifier) {
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text("🎯 运行完整演示（推荐）")
+        }
+        
+        Button(
+            onClick = {
+                val injectDemo = InjectDemoActivity()
+                val result = injectDemo.onCreate()
+                setDemoResult(result)
+            },
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
+            Text("💉 字段注入演示（推荐）")
+        }
+        
+        Button(
+            onClick = {
+                val injectTest = InjectTest()
+                val result = injectTest.runAllTests()
+                setDemoResult(result)
+            },
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
+            Text("🧪 详细字段注入测试")
         }
         
         Text(
