@@ -28,7 +28,7 @@ class InjectDemoActivity {
     fun onCreate(): String {
         val result = StringBuilder()
         result.append("📱 模拟Activity生命周期\n")
-        result.append("=".repeat(40) + "\n")
+        result.append("=".repeat(35) + "\n")
         
         try {
             // 1. 创建Component（通常在Application中创建）
@@ -81,7 +81,7 @@ class InjectDemoActivity {
             result.append("注入的实例与直接获取的实例相同: ${if (networkService === networkService1) "✅ 相同" else "❌ 不同"}\n")
             
             result.append("\n🎉 字段注入演示完成！\n")
-            result.append("=".repeat(40))
+            result.append("=".repeat(35))
             
         } catch (e: Exception) {
             result.append("❌ 演示过程中出错: ${e.message}\n")

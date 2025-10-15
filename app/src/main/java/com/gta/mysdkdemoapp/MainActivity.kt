@@ -7,9 +7,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Alignment
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
@@ -47,6 +54,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun Greeting(onClick:()->Unit, modifier: Modifier = Modifier) {
     val (demoResult, setDemoResult) = remember { mutableStateOf("点击按钮开始依赖注入演示") }
@@ -58,57 +66,76 @@ fun Greeting(onClick:()->Unit, modifier: Modifier = Modifier) {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = onClick) {
-            Text("Call My SDK")
-        }
+        // 标题
+        Text(
+            text = "MySdkDemoApp",
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
         
-        Button(
-            onClick = {
-                val demo = DependencyInjectionDemo()
-                val result = demo.runDemo()
-                setDemoResult(result)
-            },
-            modifier = Modifier.padding(top = 16.dp)
+        // 按钮区域 - 瀑布式排列
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text("运行复杂演示")
+            Button(
+                onClick = onClick,
+                modifier = Modifier.padding(4.dp)
+            ) {
+                Text("Call My SDK")
+            }
+            
+            Button(
+                onClick = {
+                    val demo = DependencyInjectionDemo()
+                    val result = demo.runDemo()
+                    setDemoResult(result)
+                },
+                modifier = Modifier.padding(4.dp)
+            ) {
+                Text("运行复杂演示")
+            }
+            
+            Button(
+                onClick = {
+                    val demo = CombinedDemo()
+                    val result = demo.runBothDemos()
+                    setDemoResult(result)
+                },
+                modifier = Modifier.padding(4.dp)
+            ) {
+                Text("🎯 运行完整演示")
+            }
+            
+            Button(
+                onClick = {
+                    val injectDemo = InjectDemoActivity()
+                    val result = injectDemo.onCreate()
+                    setDemoResult(result)
+                },
+                modifier = Modifier.padding(4.dp)
+            ) {
+                Text("💉 字段注入演示")
+            }
+            
+            Button(
+                onClick = {
+                    val injectTest = InjectTest()
+                    val result = injectTest.runAllTests()
+                    setDemoResult(result)
+                },
+                modifier = Modifier.padding(4.dp)
+            ) {
+                Text("🧪 详细测试")
+            }
         }
         
-        Button(
-            onClick = {
-                val demo = CombinedDemo()
-                val result = demo.runBothDemos()
-                setDemoResult(result)
-            },
-            modifier = Modifier.padding(top = 8.dp)
-        ) {
-            Text("🎯 运行完整演示（推荐）")
-        }
-        
-        Button(
-            onClick = {
-                val injectDemo = InjectDemoActivity()
-                val result = injectDemo.onCreate()
-                setDemoResult(result)
-            },
-            modifier = Modifier.padding(top = 8.dp)
-        ) {
-            Text("💉 字段注入演示（推荐）")
-        }
-        
-        Button(
-            onClick = {
-                val injectTest = InjectTest()
-                val result = injectTest.runAllTests()
-                setDemoResult(result)
-            },
-            modifier = Modifier.padding(top = 8.dp)
-        ) {
-            Text("🧪 详细字段注入测试")
-        }
-        
+        // 结果显示区域
         Text(
             text = demoResult,
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier
+                .padding(top = 24.dp)
+                .fillMaxWidth()
         )
     }
 }
