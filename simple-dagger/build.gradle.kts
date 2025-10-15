@@ -54,6 +54,44 @@ publishing {
             afterEvaluate {
                 from(components["release"])
             }
+            
+            pom {
+                name.set("Simple Dagger")
+                description.set("A lightweight dependency injection framework inspired by Dagger2")
+                url.set("https://github.com/1750-shocker/LearnDagger2")
+                
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+                
+                developers {
+                    developer {
+                        id.set("freddywang")
+                        name.set("Freddy Wang")
+                        email.set("nubiaggnailed@foxmail.com")
+                    }
+                }
+                
+                scm {
+                    connection.set("scm:git:git://github.com/1750-shocker/LearnDagger2.git")
+                    developerConnection.set("scm:git:ssh://github.com/1750-shocker/LearnDagger2.git")
+                    url.set("https://github.com/1750-shocker/LearnDagger2")
+                }
+            }
+        }
+    }
+    
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/1750-shocker/LearnDagger2")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_USERNAME")
+                password = project.findProperty("gpr.token") as String? ?: System.getenv("GITHUB_TOKEN")
+            }
         }
     }
 }
