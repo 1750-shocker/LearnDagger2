@@ -2,45 +2,27 @@ name: Publish to GitHub Packages
 
 on:
   push:
-    tags:
-      - 'v*'  # 当推送以 v 开头的标签时触发，如 v1.0.0
-  workflow_dispatch:  # 允许手动触发
+    tags: ['v*']  # 监听 v 开头的标签
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
-    - name: Set up JDK 17
+      
+    - name: Set up JDK 11
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '11'
         distribution: 'temurin'
-
-    - name: Cache Gradle packages
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
-
+        
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-
-    - name: Build SDK
-      run: ./gradlew :simple-dagger:build
-
-    - name: Publish to GitHub Packages
+      
+    - name: Publish package
       run: ./gradlew :simple-dagger:publish
       env:
-        GITHUB_USERNAME: ${{ github.actor }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_USERNAME: ${{ github.actor }}
